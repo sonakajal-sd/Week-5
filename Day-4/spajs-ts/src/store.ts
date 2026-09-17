@@ -58,6 +58,13 @@ export function createStorageMiddleware(
   };
 }
 
+/**
+ * Reads `key` from localStorage and parses it as `T`, or returns `fallback`
+ * if nothing is stored (or parsing fails). `fallback: T` is what ties the
+ * generic to a real type at the call site — e.g. passing a `PersistedState`
+ * fallback makes TypeScript infer `T = PersistedState`, so the parsed JSON
+ * is treated as that shape without needing an explicit `<PersistedState>`.
+ */
 export function loadPersistedState<T>(key: string, fallback: T): T {
   try {
     const raw = localStorage.getItem(key);
