@@ -16,8 +16,17 @@ function seedItems(): TaskItem[] {
   ];
 }
 
-// Only "items" and "theme" ever get saved to localStorage (see the
-// storage middleware below), so that's the only shape we expect back.
+/**
+ * The slice of `AppState` we read back out of localStorage.
+ *
+ * `Pick<AppState, "items" | "theme">` takes just those two fields out of
+ * the full `AppState` interface (so this type stays in sync if `AppState`
+ * ever renames one of them), and `Partial<...>` then makes both optional —
+ * a first-time visitor has nothing saved yet, so `persisted.items` and
+ * `persisted.theme` may be `undefined`. Only "items" and "theme" are ever
+ * saved (see the storage middleware below), so that's the only shape we
+ * expect back.
+ */
 type PersistedState = Partial<Pick<AppState, "items" | "theme">>;
 
 const persisted = loadPersistedState<PersistedState>(STORAGE_KEY, {});

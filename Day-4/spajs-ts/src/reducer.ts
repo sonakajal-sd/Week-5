@@ -1,5 +1,12 @@
 import type { AppState, Action } from "./types.js";
 
+/**
+ * Builds a starting `AppState`, letting the caller override just the
+ * fields it cares about. `Partial<AppState>` takes every required field on
+ * `AppState` and makes it optional, so `overrides` can be `{ theme: "dark" }`
+ * instead of a full state object — the spread below fills in the rest of
+ * the defaults for whatever wasn't passed in.
+ */
 export function createInitialState(overrides: Partial<AppState> = {}): AppState {
   return {
     route: "/home",
